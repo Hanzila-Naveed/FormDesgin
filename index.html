@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="">
+<style>
+    select{
+        padding : 2px;
+        margin-left: 20px;
+        border: none;
+        border: 1px solid grey;
+        border-radius: 6px;
+        outline: none;
+    }
+
+    .container{
+        width: 400px;
+        height: 845px;
+        margin: auto;
+        background-color: white;
+        box-shadow: 1px 5px 10px 2px rgba(0,0,0,.8);
+        overflow-y: scroll;
+        overflow-x: hidden;
+        border: 3px;
+    }
+    body{
+        background-color: white;
+        font-family: 'Roboto Thin',sans-serif;
+    }
+    .btn {
+        padding: 7px;
+        margin: 1rem;
+        align-items: center;
+        font-size: medium;
+        background-color: white;
+        color: black;
+        border: 2px solid #008CBA;
+        opacity: 0.4;
+    }
+    h1{
+        padding: 4px;
+        margin-bottom: 3px;
+    }
+    form {
+        width: 320px;
+        margin: 3rem 3rem 3rem 20px;
+        display: flex;
+        flex-direction: column;
+
+    }
+    form label{
+        display: flex;
+        margin-top: 20px;
+        font-size: 20px;
+        color:  #1E293B;
+        overflow: auto;
+    }
+    form input {
+        width: 90%;
+        overflow: auto;
+        margin: 4px;
+        padding: 7px;
+        border: none;
+        border: 2px solid #94A3B8;
+        border-radius: 6px;
+        outline: none;
+    }
+
+    .btn:hover {
+        background-color: #008CBA;
+        color: white;
+    }
+    label{
+        font-size: 10px;
+    }
+    span input{
+        width: 40%;
+    }
+    span label {
+    display: inline-flex;
+    }
+    span input{
+        display: inline-flex;
+    }
+    .last1{
+        margin-left: 60px;
+    }
+    .nationality{
+        padding: 5px;
+        width: 65%;
+        font-size: medium;
+    }
+    #Checks {
+        display: none;
+        width: 300px;
+        background-color: lightgrey;
+        color: black;
+        text-align: left;
+        position: absolute;
+        float: left;
+        overflow: hidden;
+        border-radius: 6px;
+        border-width: 5px;
+        border-color: #555 transparent transparent transparent;
+        top: 50%;
+        left: 20%;
+        transform: translate(5%,-30%);
+    }
+.popup .popUpText{
+    margin: 10px;
+    text-align: left;
+}
+h4{
+  margin: 10px;
+}
+ .popUpText{
+     color: red;
+ }
+    .popUpText:before {
+        position: relative;
+        content: "✖";
+    }
+    .valid {
+        color: green;
+    }
+
+    .valid:before {
+        margin: 0px;
+        padding: 0px;
+        content: "✔";
+    }
+
+</style>
+<body>
+<div class="container">
+<form name="form" action="" onsubmit="return FormValidation()"  method="post" >
+    <h1>Sign Up</h1>
+    <span>
+         <label> First Name</label>
+         <label class="last1"> Last Name</label>
+    <input type="text" id="firstName" name="fName"  onkeyup="FirstName()">
+    <input type="text" id="lastName" name="lName"  onkeyup="LastName()">
+    <div id="name-id"></div>
+    <div id="last-id"></div>
+    </span>
+    <label> Email</label> <input type="text" id="Email" name="email" onfocus="" onkeyup="EmailValidation()">
+    <div id="Email-id"></div>
+    <label> Password</label>  <input type="password" id="password" name="Password"  onkeyup="validation()">
+    <div id="confirm-password"> </div>
+    <span class="popup" id="Checks">
+        <h4>Password requirements</h4>
+        <p id="letter" class="popUpText" onkeyup="validation()"> A lower case letter</p>
+        <p id="Capital" class="popUpText" onkeyup="validation()"> A Capital case letter</p>
+        <p id="Number" class="popUpText"> A number</p>
+        <p id="length" class="popUpText"> Length of password must be in between 8</p>
+    </span>
+    <label> Confirm Password</label>  <input type="password" id="confirmPassword" name="ConfirmPassword"   onkeyup="validation()" >
+
+    <label> Gender  <input type="radio" id="male" name="Gender" value="Male"> Male <input type="radio" id="female" name="Gender" value="Female"> Female </label>
+    <div id="radioCheck"></div>
+    <label> Phone Number</label> <input type="tel" id="phone" name="phone" onkeyup="PhoneNumberValidation()" >
+    <div id="PhoneNumberCheck"></div>
+    <label> Date Of Birth </label> <input type ="Date" id="date" name= "dateOfBirth" >
+    <div id="date-id"></div>
+    <label> Nationality <select class="nationality" name="nationality" id="nationality">
+        <option value="pakistan">Pakistan</option>
+        <option value="argentina">Argentina</option>
+        <option value="unitedKingdom">UnitedKingdom</option>
+        <option value="usa">USA</option>
+        <option value="spain">Spain</option>
+    </select></label>
+        <input type="submit" class="btn" id="Btn" value="Submit" disabled>
+</form>
+</div>
+</body>
+<script>
+    let pass = document.getElementById('password');
+    pass.onblur= function(){document.getElementById("Checks").style.display= "none"}
+    pass.onfocus= function(){
+    document.getElementById("Checks").style.display = "grid";
+}
+    function FormValidation(){
+        let radios = document.getElementsByName("Gender");
+        let formValid = false;
+        let i = 0;
+        while (!formValid && i < radios.length) {
+            if (radios[i].checked) formValid = true;
+            i++;
+        }
+        if (!formValid) {
+            document.getElementById('radioCheck').innerHTML = 'Select Gender'
+            document.getElementById('radioCheck').style.color= 'red'
+            document.getElementById('Btn').disabled = true;
+            document.getElementById('Btn').style.opacity = '0.4';
+        };
+        let x= document.forms["form"]["dateOfBirth"].value;
+        if(x==""){
+            document.getElementById('date-id').innerHTML='Date of birth must be filled';
+            document.getElementById('date-id').style.color= 'red';
+            document.getElementById('Btn').disabled = true;
+            document.getElementById('Btn').style.opacity = '1';
+            return false;
+
+        }else{
+            let a= document.getElementById("firstName").value
+            let b= document.getElementById("lastName").value
+            let c= document.getElementById("Email").value
+            let d= document.querySelector('input[name="Gender"]:checked').value
+            let e= document.getElementById("phone").value
+            let f= document.getElementById("date").value
+            let g= document.getElementById("nationality").value
+            console.log(a + "\n" + b + "\n" + c + "\n" + d+ "\n" + e + "\n" + f + "\n"+ g)
+            document.write("FirstName:"+ a + "<br>")
+            document.write("LastName:"+ b +"<br>")
+            document.write("Email:" + c + "<br>")
+            document.write("Gender:" + d +"<br>")
+            document.write("phone:" + e +"<br>")
+            document.write("DOB:" + f +"<br>")
+            document.write("nationality:" + g)
+        }
+    }
+
+    function validation(){
+    let pass = document.getElementById('password').value;
+    let letter = document.getElementById("letter");
+    let capital = document.getElementById("Capital");
+    let number = document.getElementById("Number");
+    let length = document.getElementById("length");
+    let confirm_pass = document.getElementById('confirmPassword').value;
+        if (pass=="")  {
+        document.getElementById('confirm-password').innerHTML = 'Enter password';
+        document.getElementById('confirm-password').style.color= 'red';
+        document.getElementById('Btn').disabled = true;
+            letter.classList.remove("valid");
+            letter.classList.add("popUpText");
+            capital.classList.remove("valid");
+            capital.classList.add("popUpText");
+            number.classList.remove("valid");
+            number.classList.add("popUpText");
+            length.classList.remove("valid");
+            length.classList.add("popUpText");
+            return false;
+    }
+        if(pass.match(/[a-z]/g)){
+            letter.classList.remove("popUpText");
+            document.getElementById('password').style.color = 'green';
+            letter.classList.add("valid");
+        }else{
+            document.getElementById('password').style.color = 'red';
+            letter.classList.remove("valid");
+            letter.classList.add("popUpText");
+        }
+        if(pass.match(/[A-Z]/g)){
+            capital.classList.remove("popUpText");
+            document.getElementById('password').style.color = 'green';
+            capital.classList.add("valid");
+        }else{
+            document.getElementById('password').style.color = 'red';
+            capital.classList.remove("valid");
+            capital.classList.add("popUpText");
+        }
+        if(pass.match(/[0-9]/g)){
+            number.classList.remove("popUpText");
+            document.getElementById('password').style.color = 'green';
+            number.classList.add("valid");
+        }else{
+            document.getElementById('password').style.color = 'red';
+            number.classList.remove("valid");
+            number.classList.add("popUpText");
+        }
+        if(pass.length==8 ){
+            length.classList.remove("popUpText");
+            document.getElementById('password').style.color = 'green';
+            length.classList.add("valid");
+        }else {
+            document.getElementById('password').style.color = 'red';
+            length.classList.remove("valid");
+            length.classList.add("popUpText");
+        }
+    if (confirm_pass=="")  {
+        document.getElementById('confirm-password').innerHTML = 'Enter confirm password';
+        document.getElementById('confirm-password').style.color= 'red';
+        document.getElementById('Btn').disabled = true;
+        return false;
+    }
+
+    if (pass != confirm_pass) {
+        document.getElementById('password').style.color = 'red';
+        document.getElementById('confirm-password').innerHTML
+            = 'Use same password';
+        document.getElementById('password').style.borderBlockColor = 'red';
+        document.getElementById('confirm-password').style.color= 'red'
+        document.getElementById('Btn').disabled = true;
+    } else {
+        document.getElementById('password').style.color = 'green';
+        document.getElementById('confirm-password').innerHTML =
+            'Password Matched';
+        document.getElementById('confirm-password').style.color= 'green'
+        document.getElementById('password').style.borderBlockColor = 'green';
+        document.getElementById('Btn').disabled = true;
+    }
+}
+function FirstName(){
+    let a= document.getElementById("firstName").value
+    if(a==""){
+        document.getElementById('name-id').innerHTML= 'Enter First Name'
+        document.getElementById('name-id').style.color= 'red'
+        document.getElementById('firstName').style.borderBlockColor= 'red'
+        document.getElementById('firstName').style.color= 'red'
+        document.getElementById('Btn').disabled = true;
+        return false
+    }
+    if(!a.match(/^[a-zA-Z,'.\-\s]*$/)){
+        document.getElementById('Btn').disabled = true;
+        document.getElementById('name-id').style.display= 'flex'
+        document.getElementById('firstName').style.borderBlockColor= 'red'
+        document.getElementById('firstName').style.color= 'red'
+        document.getElementById('name-id').innerHTML= 'Name must not contain numbers'
+        return false
+    }else{
+        document.getElementById('firstName').style.borderBlockColor= 'green'
+        document.getElementById('name-id').style.display= 'none'
+        document.getElementById('firstName').style.color= 'green'
+        document.getElementById('Btn').disabled = true;
+    }
+}
+    function LastName(){
+        let b= document.getElementById("lastName").value
+        if(b==""){
+            document.getElementById('last-id').innerHTML= 'Enter Last Name'
+            document.getElementById('last-id').style.color= 'red'
+            document.getElementById('lastName').style.borderBlockColor= 'red'
+            document.getElementById('lastName').style.color= 'red'
+            document.getElementById('Btn').disabled = true;
+            return false
+        }
+        if(!b.match(/^[a-zA-Z,'.\-\s]*$/)){
+            document.getElementById('Btn').disabled = true;
+            document.getElementById('last-id').style.display= 'flex'
+            document.getElementById('lastName').style.borderBlockColor= 'red'
+            document.getElementById('lastName').style.color= 'red'
+            document.getElementById('last-id').innerHTML= 'Name must not contain numbers'
+            return false
+        }else{
+            document.getElementById('lastName').style.borderBlockColor= 'green'
+            document.getElementById('last-id').style.display= 'none'
+            document.getElementById('lastName').style.color= 'green'
+            document.getElementById('Btn').disabled = true;
+
+        }
+    }
+    function EmailValidation(){
+        let c= document.getElementById("Email").value
+        if(c==""){
+            document.getElementById('Email-id').innerHTML= 'Enter Email'
+            document.getElementById('Email-id').style.color= 'red'
+            document.getElementById('Email').style.borderBlockColor= 'red'
+            document.getElementById('Email').style.color= 'red'
+            document.getElementById('Btn').disabled = true;
+            return false
+        }
+        if(!c.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)){
+            document.getElementById('Btn').disabled = true;
+            document.getElementById('Email-id').style.display= 'flex'
+            document.getElementById('Email').style.borderBlockColor= 'red'
+            document.getElementById('Email').style.color= 'red'
+            document.getElementById('Email-id').innerHTML= 'Invalid Email'
+            return false
+        }else{
+            document.getElementById('Email').style.borderBlockColor= 'green'
+            document.getElementById('Email').style.color= 'green'
+            document.getElementById('Email-id').style.display= 'none'
+            document.getElementById('Btn').disabled = true;
+        }
+    }
+    function PhoneNumberValidation(){
+        let e= document.getElementById("phone").value
+        if(e==""){
+            document.getElementById('PhoneNumberCheck').innerHTML= 'Enter Phone Number'
+            document.getElementById('PhoneNumberCheck').style.color= 'red'
+            document.getElementById('phone').style.borderBlockColor= 'red'
+            document.getElementById('phone').style.color= 'red'
+            document.getElementById('Btn').disabled = true;
+            return false
+        }
+        if(!e.match(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/)){
+            document.getElementById('Btn').disabled = true;
+            document.getElementById('PhoneNumberCheck').style.display= 'flex'
+            document.getElementById('phone').style.borderBlockColor= 'red'
+            document.getElementById('phone').style.color= 'red'
+            document.getElementById('PhoneNumberCheck').innerHTML= 'Phone Number must not contain letters'
+            return false
+        }else{
+            document.getElementById('phone').style.borderBlockColor= 'green'
+            document.getElementById('phone').style.color= 'green'
+            document.getElementById('PhoneNumberCheck').style.display= 'none'
+            document.getElementById('Btn').disabled = true
+            document.getElementById('Btn').style.opacity = '1';
+        }
+    }
+
+</script>
+</html>
